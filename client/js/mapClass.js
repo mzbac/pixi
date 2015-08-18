@@ -1,18 +1,21 @@
-function Map(width, height,cavasWidth,canvasHeight, imageUrl) {
+function Map(width, height, cavasWidth, canvasHeight, imageUrl) {
     var bunnyTexture = PIXI.Texture.fromImage(imageUrl);
     PIXI.Sprite.call(this, bunnyTexture);
     this.position.x = 0;
     this.position.y = 0;
     this.width = width;
     this.height = height;
-    this.canvasHeight=canvasHeight;
-    this.canvasWidth=cavasWidth;
-    this.interactive=true;
+    this.canvasHeight = canvasHeight;
+    this.canvasWidth = cavasWidth;
+    this.interactive = true;
     if (addWheelListener != undefined) {
-        addWheelListener(document.body, function(e) {
-            this.originalScale = this.originalScale ? this.originalScale : this.scale.x;
-            this.zoom(e.clientX, e.clientY, e.deltaY < 0);
-        }.bind(this));
+        addWheelListener(document.body, function() {
+            var that = this;
+            return function(e) {
+                that.originalScale = that.originalScale ? that.originalScale : that.scale.x;
+                that.zoom(e.clientX, e.clientY, e.deltaY < 0);
+            }
+        }.call(this));
     }
     this.mousePressPoint = [0, 0];
 }
@@ -44,14 +47,14 @@ Map.prototype.mousemove = Map.prototype.touchmove = function(data) {
     }
 };
 
-Map.prototype.zoom=function(x, y, isZoomIn) {
- var direction = isZoomIn ? 1 : -1;
-  var factor = this.scale.x * (1 + direction * 0.1);
-  var previousScale = this.scale.x;
-  if (factor >= this.originalScale)
-    this.scale.x = this.scale.y = factor;
-  if ((this.position.x + this.width) < this.canvasWidth)
-    this.scale.x = this.scale.y = previousScale;
-  if ((this.position.y + this.height) < this.canvasHeight)
-    this.scale.x = this.scale.y = previousScale;
+Map.prototype.zoom = function(x, y, isZoomIn) {
+    var direction = isZoomIn ? 1 : -1;
+    var factor = this.scale.x * (1 + direction * 0.1);
+    var previousScale = this.scale.x;
+    if (factor >= this.originalScale)
+        this.scale.x = this.scale.y = factor;
+    if ((this.position.x + this.width) < this.canvasWidth)
+        this.scale.x = this.scale.y = previousScale;
+    if ((this.position.y + this.height) < this.canvasHeight)
+        this.scale.x = this.scale.y = previousScale;
 }
