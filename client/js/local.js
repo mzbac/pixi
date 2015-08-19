@@ -10,8 +10,8 @@ var stage = new PIXI.Container();
 var map =new Map($(document.body).width(),$(document.body).height(),$(document.body).width(),$(document.body).height(),'/img/floorMap.jpg');
 var texture = PIXI.Texture.fromImage('/img/bunny.png');
 var bunny= new PIXI.Sprite( texture);
-bunny.position.x=0;
-bunny.position.y=0;
+bunny.position.x=100;
+bunny.position.y=100;
 map.addChild(bunny);
 // Add the bunny to the scene we are building.
 stage.addChild(map);

@@ -1,6 +1,6 @@
 function Map(width, height, cavasWidth, canvasHeight, imageUrl) {
-    var bunnyTexture = PIXI.Texture.fromImage(imageUrl);
-    PIXI.Sprite.call(this, bunnyTexture);
+    var texture = PIXI.Texture.fromImage(imageUrl);
+    PIXI.Sprite.call(this, texture);
     this.position.x = 0;
     this.position.y = 0;
     this.width = width;
@@ -51,10 +51,20 @@ Map.prototype.zoom = function(x, y, isZoomIn) {
     var direction = isZoomIn ? 1 : -1;
     var factor = this.scale.x * (1 + direction * 0.1);
     var previousScale = this.scale.x;
+    var previousHeight=this.height;
+    var previousWidth=this.width;
     if (factor >= this.originalScale)
         this.scale.x = this.scale.y = factor;
-    if ((this.position.x + this.width) < this.canvasWidth)
+    if ((Number((this.position.x + this.width) )< Number(this.canvasWidth))){
         this.scale.x = this.scale.y = previousScale;
-    if ((this.position.y + this.height) < this.canvasHeight)
-        this.scale.x = this.scale.y = previousScale;
+        this.width=previousWidth;
+        this.height=previousHeight;
+    }
+      
+    if ((Number((this.position.y + this.height)) < Number(this.canvasHeight))){
+          this.scale.x = this.scale.y = previousScale;
+         this.width=previousWidth;
+        this.height=previousHeight;
+    }
+      
 }
