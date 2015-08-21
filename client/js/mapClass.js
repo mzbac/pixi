@@ -1,5 +1,6 @@
 function Map(width, height, cavasWidth, canvasHeight, imageUrl) {
     var texture = PIXI.Texture.fromImage(imageUrl);
+    texture.baseTexture.SCALE_MODES =PIXI.SCALE_MODES.NEAREST;
     PIXI.Sprite.call(this, texture);
     this.position.x = 0;
     this.position.y = 0;
@@ -28,7 +29,9 @@ Map.prototype.mousedown = Map.prototype.touchstart = function(data) {
 
     this.dragging = true;
     this.mousePressPoint[0] = data.data.getLocalPosition(this.parent).x - this.position.x;
+    
     this.mousePressPoint[1] = data.data.getLocalPosition(this.parent).y - this.position.y;
+    console.log('mouse x : '+this.mousePressPoint[0]+'/'+this.mousePressPoint[1]);
 };
 Map.prototype.mouseup = Map.prototype.mouseupoutside =
     this.touchend = this.touchendoutside = function(data) {
